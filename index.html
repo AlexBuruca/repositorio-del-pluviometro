@@ -5,30 +5,56 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Pluviómetro</h1>
-  <canvas id="lluviaChart" width="600" height="400"></canvas>
+  <h1>Datos Meteorológicos</h1>
+  <canvas id="climaChart" width="800" height="400"></canvas>
 
   <script>
-    fetch('data.json')  // JSON dentro de la misma carpeta
+    fetch('data.json')
       .then(response => response.json())
       .then(data => {
-        const ctx = document.getElementById('lluviaChart').getContext('2d');
+        const ctx = document.getElementById('climaChart').getContext('2d');
         new Chart(ctx, {
           type: 'line',
           data: {
             labels: data.tiempo,
-            datasets: [{
-              label: 'Lluvia (mm)',
-              data: data.lluvia,
-              borderColor: 'blue',
-              fill: false
-            }]
+            datasets: [
+              {
+                label: 'Lluvia (mm)',
+                data: data.lluvia,
+                borderColor: 'blue',
+                fill: false,
+                yAxisID: 'y1'
+              },
+              {
+                label: 'Temperatura (°C)',
+                data: data.temperatura,
+                borderColor: 'red',
+                fill: false,
+                yAxisID: 'y2'
+              },
+              {
+                label: 'Humedad (%)',
+                data: data.humedad,
+                borderColor: 'green',
+                fill: false,
+                yAxisID: 'y2'
+              }
+            ]
           },
           options: {
             responsive: true,
             scales: {
-              y: {
-                beginAtZero: true
+              y1: { // para lluvia
+                type: 'linear',
+                position: 'left',
+                beginAtZero: true,
+                title: { display: true, text: 'Lluvia (mm)' }
+              },
+              y2: { // para temperatura y humedad
+                type: 'linear',
+                position: 'right',
+                beginAtZero: true,
+                title: { display: true, text: 'Temperatura (°C) / Humedad (%)' }
               }
             }
           }
