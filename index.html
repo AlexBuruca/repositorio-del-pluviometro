@@ -7,8 +7,9 @@
 <body>
   <h1>Pluviómetro</h1>
   <canvas id="lluviaChart" width="600" height="400"></canvas>
+
   <script>
-    fetch('../data/data.json')
+    fetch('data.json')  // JSON dentro de la misma carpeta
       .then(response => response.json())
       .then(data => {
         const ctx = document.getElementById('lluviaChart').getContext('2d');
@@ -32,7 +33,8 @@
             }
           }
         });
-      });
+      })
+      .catch(err => console.error("Error cargando data.json:", err));
   </script>
 </body>
 </html>
